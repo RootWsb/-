@@ -119,6 +119,8 @@ class SkillRouter(nn.Module):
                 attention_mask=attention_mask,
             )
             hidden = outputs.last_hidden_state.mean(dim=1)  # mean pooling [batch, embed_dim]
+            classifier_dtype = next(self.classifier.parameters()).dtype
+            hidden = hidden.to(dtype=classifier_dtype)
 
         logits = self.classifier(hidden)  # [batch, num_skills]
         return logits
