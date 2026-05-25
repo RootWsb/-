@@ -209,6 +209,9 @@ class SkillRouter(nn.Module):
         cls,
         load_dir: str,
         device: Optional[str] = None,
+        embedding_model: Optional[str] = None,
+        cache_dir: Optional[str] = None,
+        local_files_only: bool = False,
     ) -> "SkillRouter":
         """
         加载训练好的分类器。
@@ -227,9 +230,11 @@ class SkillRouter(nn.Module):
 
         model = cls(
             num_skills=config["num_skills"],
-            embedding_model=config["embedding_model"],
+            embedding_model=embedding_model or config["embedding_model"],
             hidden_dim=config["hidden_dim"],
             dropout=config.get("dropout", 0.1),
+            cache_dir=cache_dir,
+            local_files_only=local_files_only,
         )
 
         classifier_path = load_dir / "classifier.pt"

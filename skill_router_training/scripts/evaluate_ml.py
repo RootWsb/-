@@ -27,10 +27,19 @@ parser.add_argument("--input", default=INPUT_PATH)
 parser.add_argument("--output", default=OUTPUT_PATH)
 parser.add_argument("--threshold", type=float, default=0.5)
 parser.add_argument("--top-k", type=int, default=5)
+parser.add_argument("--embedding-model", default=None, help="Override embedding model name or local path.")
+parser.add_argument("--cache-dir", default=None, help="Hugging Face cache directory.")
+parser.add_argument("--local-files-only", action="store_true", help="Load embedding model only from local files/cache.")
 args = parser.parse_args()
 
 print("加载 SkillRouter 模型...")
-model = SkillRouter.load_classifier(args.checkpoint, device="cuda" if torch.cuda.is_available() else "cpu")
+model = SkillRouter.load_classifier(
+    args.checkpoint,
+    device="cuda" if torch.cuda.is_available() else "cpu",
+    embedding_model=args.embedding_model,
+    cache_dir=args.cache_dir,
+    local_files_only=args.local_files_only,
+)
 
 with open(args.skill_index, "r", encoding="utf-8") as f:
     skill_index = json.load(f)

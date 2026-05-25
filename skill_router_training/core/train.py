@@ -457,6 +457,21 @@ def main():
         default=None,
         help="设备（默认: auto）",
     )
+    parser.add_argument(
+        "--embedding-model",
+        default="Qwen/Qwen3-Embedding-0.6B",
+        help="Embedding model name or local path.",
+    )
+    parser.add_argument(
+        "--cache-dir",
+        default=None,
+        help="Hugging Face cache directory.",
+    )
+    parser.add_argument(
+        "--local-files-only",
+        action="store_true",
+        help="Load embedding model only from local files/cache.",
+    )
 
     args = parser.parse_args()
 
@@ -481,7 +496,12 @@ def main():
     print(f"  训练集: {len(train_data)} 条")
     print(f"  验证集: {len(val_data)} 条")
 
-    model = SkillRouter(num_skills=len(skill_index))
+    model = SkillRouter(
+        num_skills=len(skill_index),
+        embedding_model=args.embedding_model,
+        cache_dir=args.cache_dir,
+        local_files_only=args.local_files_only,
+    )
 
     train_model(
         model=model,
