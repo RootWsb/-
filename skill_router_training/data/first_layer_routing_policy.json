@@ -1,0 +1,50 @@
+{
+  "excluded_skills": [
+    "complete-task",
+    "delegate-task",
+    "dispatching-parallel-agents",
+    "using-superpowers",
+    "writing-skills"
+  ],
+  "force_rules": [
+    {
+      "skill": "wanxiangoa-api",
+      "any_keywords": [
+        "万象",
+        "OA",
+        "oa",
+        "NocoBase",
+        "nocobase",
+        "工作流",
+        "页面",
+        "区块",
+        "数据表",
+        "字段",
+        "插件",
+        "导入",
+        "导出",
+        "审批",
+        "分类视图",
+        "Oracle",
+        "MSSQL",
+        "SQL Server",
+        "Kingbase",
+        "外部数据源"
+      ]
+    },
+    {
+      "skill": "requirements-clarifier",
+      "any_keywords": [
+        "需求",
+        "还没想好",
+        "怎么实现",
+        "帮我实现",
+        "设计",
+        "优化",
+        "功能",
+        "要求",
+        "复杂一点"
+      ]
+    }
+  ]
+}

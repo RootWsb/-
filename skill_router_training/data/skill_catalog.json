@@ -1,0 +1,182 @@
+[
+  {
+    "skill_name": "materials-to-problems",
+    "category": "ai-pm",
+    "description": "将混合来源材料转化为问题定义文档，用于支持业务决策与后续调研，不直接输出解决方案。默认先做轻量联网搜索，补充外部现有做法、公开方案、竞品/同行实践、标准与监管动态，再结合材料输出问题定义文档。",
+    "when_to_use": "输入以原始材料、纪要、表格、制度、访谈、需求草稿为主；当前还没有稳定的问题框架；用户要先问对问题而不是直接写实施方案。"
+  },
+  {
+    "skill_name": "requirements-clarifier",
+    "category": "ai-pm",
+    "description": "需求澄清与任务定义技能。适用于目标、交付物、约束或验收标准不清，但需要继续拆任务、定义执行单元、编写方案或处理多文档输入的场景。用它把模糊请求整理成可执行、可交接、可继续定义后续 agent 或执行步骤的任务卡。",
+    "when_to_use": "用户给的是背景、抱怨、目标方向或多份材料但没有明确交付物；当前还无法可靠判断应该进入哪个 PM 阶段；缺少目标、约束、验收标准中的关键项。"
+  },
+  {
+    "skill_name": "problems-to-research-plan",
+    "category": "ai-pm",
+    "description": "将问题定义文档进一步转化为方案调研与技术验证设计文档，用于设计下一阶段该研究什么、先验证什么、如何通过资料补证、访谈、技术试验、样板 PoC、流程演练等手段收敛可行方案。",
+    "when_to_use": "已有问题定义文档或等价问题框架；当前要回答的是先研究什么、怎么验证、做到什么程度才值得进入 PoC 或正式方案。"
+  },
+  {
+    "skill_name": "research-to-poc-decision",
+    "category": "ai-pm",
+    "description": "将方案调研与技术验证设计文档及相关研究产物，进一步转化为候选实现路径对比与样板 PoC 决策文档，用于判断先走哪条实现路径、先做哪个 PoC、何时 Go / No-Go。",
+    "when_to_use": "已有研究设计文档、验证产物或等价研究记录；当前需要回答先走哪条路径、先做哪个 PoC、哪些路径暂不推荐。"
+  },
+  {
+    "skill_name": "solution-and-pilot-design",
+    "category": "ai-pm",
+    "description": "将候选路径对比与样板 PoC 决策文档及相关样板结果，进一步转化为试点方案或正式业务方案，用于把 PoC 之后的路径收敛成可推进的企业级业务方案。",
+    "when_to_use": "已有 PoC 决策、样板结果或明确的候选路径收敛结论；当前需要回答怎么试点、何时转正式方案。"
+  },
+  {
+    "skill_name": "delivery-pack-designer",
+    "category": "ai-pm",
+    "description": "将试点方案、正式业务方案或阶段性决策文档进一步转化为实施交付包、执行包或落地蓝图文档，用于把已经完成方向收敛的业务方案继续推进到可交付、可协同、可执行的阶段。",
+    "when_to_use": "已有试点方案、正式业务方案或阶段性决策文档；当前要解决的是谁做、先做什么、交什么、按什么阶段推进。"
+  },
+  {
+    "skill_name": "prd-or-backlog-slicer",
+    "category": "ai-pm",
+    "description": "将正式业务方案、试点方案、实施交付包或阶段性决策文档切成 PRD、用户故事、Backlog、验收标准或版本切片文档，用于把已经收敛的方向转成研发和执行团队可接的需求单元。",
+    "when_to_use": "已有正式业务方案或等价阶段产物；当前需要输出 PRD、需求池、Backlog、验收标准或版本切片。"
+  },
+  {
+    "skill_name": "launch-readiness-and-governance",
+    "category": "ai-pm",
+    "description": "将实施交付包、试点执行结果或阶段性执行产物转化为上线前治理评审文档、Go-No-Go 决策文档或风险接受与治理要求包，用于判断项目当前是否允许进入上线、扩围、正式交付或下一阶段执行。",
+    "when_to_use": "已有实施交付包、执行记录、阶段门材料、风险清单或治理依据；当前要回答的是能不能进、条件进还是不能进。"
+  },
+  {
+    "skill_name": "pilot-retro-and-scale-decision",
+    "category": "ai-pm",
+    "description": "将试点执行结果、阶段性治理结论、样板报告与问题清单转化为试点复盘文档、扩围决策文档或收缩终止建议文档，用于判断试点之后是应该扩围、维持、收缩、换路线还是终止。",
+    "when_to_use": "已有试点执行结果、阶段性报告、样板报告或治理结论；当前要回答的是试点之后该怎么走。"
+  },
+  {
+    "skill_name": "pm-workflow-router",
+    "category": "ai-pm",
+    "description": "作为 AI 产品经理工作流的总控路由层，先判断当前材料处于哪个阶段、还缺什么、下一步应调用哪个核心 skill，再决定是否允许继续推进。输出以阶段识别、推荐 skill、缺失项、是否可推进为主。",
+    "when_to_use": "已有任务卡、混合材料或阶段产物但还未确定该进入哪个 PM 阶段；用户要求判断下一步该做什么或推进整个工作流。"
+  },
+  {
+    "skill_name": "brainstorming",
+    "category": "superpowers",
+    "description": "在任何创造性工作之前必须使用：创建功能、构建组件、添加功能或修改行为。在实现之前探索用户意图、需求和设计。",
+    "when_to_use": "在任何创造性工作之前：创建功能、构建组件、添加功能或修改行为。必须在任何实现 skill、代码编写、项目搭建之前调用。"
+  },
+  {
+    "skill_name": "writing-plans",
+    "category": "superpowers",
+    "description": "当有规格说明或多步骤任务需求时，在编写代码之前使用。编写全面的实现计划，假设工程师对代码库零上下文。",
+    "when_to_use": "当有规格说明或多步骤任务需求时，在编写代码之前。计划应保存到 docs/superpowers/plans/。"
+  },
+  {
+    "skill_name": "executing-plans",
+    "category": "superpowers",
+    "description": "当有书面实现计划需要在单独会话中执行时使用，带有审查检查点。",
+    "when_to_use": "当有书面实现计划需要在单独会话中执行时使用。如果子代理可用，优先使用 subagent-driven-development。"
+  },
+  {
+    "skill_name": "subagent-driven-development",
+    "category": "superpowers",
+    "description": "当在当前会话中执行有独立任务的实现计划时使用。通过为每个任务调度新的子代理来执行计划，每个任务后进行两阶段审查：先规格合规审查，再代码质量审查。",
+    "when_to_use": "当有实现计划、任务大部分独立、希望在当前会话中调度子代理时使用。不适合紧密耦合的任务。"
+  },
+  {
+    "skill_name": "dispatching-parallel-agents",
+    "category": "superpowers",
+    "description": "当面对 2 个以上可以独立工作、无共享状态或顺序依赖的任务时使用。为每个独立问题域调度一个代理，让它们并发工作。",
+    "when_to_use": "当面对 2 个以上可以独立工作、无共享状态或顺序依赖的任务时使用。"
+  },
+  {
+    "skill_name": "test-driven-development",
+    "category": "superpowers",
+    "description": "在实现任何功能或修复 bug 时使用，在编写实现代码之前。先写测试，看着它失败，然后写最少的代码使其通过。",
+    "when_to_use": "始终用于新功能、bug 修复、重构、行为变更。例外情况：丢弃的原型、生成的代码、配置文件。"
+  },
+  {
+    "skill_name": "systematic-debugging",
+    "category": "superpowers",
+    "description": "遇到任何 bug、测试失败或意外行为时使用，在提出修复方案之前。必须先找到根本原因再尝试修复。症状修复等于失败。",
+    "when_to_use": "对于任何技术问题：测试失败、生产环境 bug、意外行为、性能问题。必须在提出任何修复之前完成根本原因调查。"
+  },
+  {
+    "skill_name": "verification-before-completion",
+    "category": "superpowers",
+    "description": "在声称工作完成、修复或通过之前使用，在提交或创建 PR 之前。需要运行验证命令并确认输出后再做出任何成功声明。先有证据再有断言。",
+    "when_to_use": "在声称工作完成、修复或通过时。必须运行验证命令并确认输出。在提交或创建 PR 之前。"
+  },
+  {
+    "skill_name": "using-git-worktrees",
+    "category": "superpowers",
+    "description": "在开始需要与当前工作空间隔离的功能开发时使用，或在执行实现计划之前。创建隔离的 git 工作树，带有智能目录选择和安全验证。",
+    "when_to_use": "在开始需要与当前工作空间隔离的功能开发时，或在执行实现计划之前。"
+  },
+  {
+    "skill_name": "writing-skills",
+    "category": "superpowers",
+    "description": "在创建新 skill、编辑现有 skill 或在部署前验证 skill 是否正常工作时使用。编写 skill 就是应用于流程文档的测试驱动开发。",
+    "when_to_use": "在创建新 skill、编辑现有 skill 或在部署前验证 skill 是否正常工作时使用。"
+  },
+  {
+    "skill_name": "using-superpowers",
+    "category": "superpowers",
+    "description": "在开始任何对话时使用，建立如何查找和使用 skill 的规则，要求在任何响应之前调用 Skill 工具，包括澄清性问题。",
+    "when_to_use": "在开始任何对话时。建立如何查找和使用 skill 的规则。如果某个 skill 有 1% 的可能性适用，则必须调用它。"
+  },
+  {
+    "skill_name": "complete-task",
+    "category": "team-ops",
+    "description": "标记当前任务为已完成。会话任务完成后必须调用此 skill。只要当前会话任务已经完成就调用，不要自己判断是否可以跳过。",
+    "when_to_use": "当阶段工作已全部完成时调用。使用前提：阶段产出已写入共享文件、动作记录已追加。"
+  },
+  {
+    "skill_name": "delegate-task",
+    "category": "team-ops",
+    "description": "智能体间的任务委托工具。当任务进入下一阶段需要移交给专职智能体时使用。通过 sh 脚本调用 REST API 将任务入队，并由运行时自动切换主会话。不要与子代理混淆。",
+    "when_to_use": "当前阶段工作已完成需下一阶段专职智能体接手；任务超出自身职责范围需转交；用户要求交给特定智能体。"
+  },
+  {
+    "skill_name": "requirements-to-test-cases",
+    "category": "testing",
+    "description": "将本地产品或功能需求文档转换为简洁的、适合审查的测试用例文档，可选地使用本地代码进行执行基础和冲突检查。用于人工审查、覆盖确认和手动测试。",
+    "when_to_use": "将一份本地需求文档转换为一份可供人工审查的测试用例文档。用于人工审查、覆盖确认和手动测试。"
+  },
+  {
+    "skill_name": "test-cases-to-execution-json",
+    "category": "testing",
+    "description": "将 Markdown 测试用例文档转换为机器可读的执行 JSON，用于面向代理或自动化测试工作流。默认粒度：一个测试用例 = 一个可认领的任务。",
+    "when_to_use": "当经过审查的 Markdown 测试用例文档需要被转换为稳定的执行队列 JSON 时。不重新设计测试用例。"
+  },
+  {
+    "skill_name": "execute-test-cases",
+    "category": "testing",
+    "description": "当需要将执行计划 JSON 产物转换为结构化的运行结果时使用，用于代理驱动或半自动化测试执行工作流。记录执行过程中发生的事情，不重新设计测试或重新生成执行计划。",
+    "when_to_use": "当执行计划 JSON 产物需要被转换为包含运行级、用例级和步骤级执行结果的运行结果 JSON 时。"
+  },
+  {
+    "skill_name": "nocobase-dev-setup",
+    "category": "tools",
+    "description": "在陌生环境中从零搭建并运行 NocoBase v2.0.9 源码开发环境。前置条件：需要 nvm、git。项目需要 Node 20。",
+    "when_to_use": "启动项目、运行项目、部署开发环境；NocoBase 相关环境搭建；新机器/新环境首次配置本项目。"
+  },
+  {
+    "skill_name": "playwright-cli",
+    "category": "tools",
+    "description": "自动化浏览器交互、测试网页和处理 Playwright 测试。提供打开浏览器、导航、点击、输入、截图和关闭浏览器的命令。",
+    "when_to_use": "需要自动化浏览器交互、测试网页或处理 Playwright 测试时使用。"
+  },
+  {
+    "skill_name": "send-file",
+    "category": "tools",
+    "description": "当用户需要读取仅存在于沙箱工作空间或运行时容器内的文本或 Markdown 文件时使用。将文件发送到控制台供用户查看。",
+    "when_to_use": "当用户需要直接查看 workspace 下的文本文件、显示 .md/.txt/.json/.yaml/.log 产物，或文件在沙箱中但用户无法直接访问时。"
+  },
+  {
+    "skill_name": "wanxiangoa-api",
+    "category": "tools",
+    "description": "通过 External Agent REST API 操作 wanxiangOA 系统（基于 NocoBase + @tlws/plugin-ai-external-agent）。支持数据建模、工作流配置、页面/区块搭建等操作。",
+    "when_to_use": "需要对 OA 进行数据建模、工作流配置、页面/区块搭建等操作；查询或修改 Collection、Field、Workflow、Block 等资源。"
+  }
+]

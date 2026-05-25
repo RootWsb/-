@@ -1,0 +1,6 @@
+﻿.venv/
+__pycache__/
+*.pyc
+skill_router_training/checkpoints/
+skill_router_training/plots*/
+*.log
