@@ -37,7 +37,11 @@ def normalize_real_rows(rows: List[Dict[str, Any]], weight: float) -> List[Dict[
     return output
 
 
-def filter_synthetic_rows(rows: List[Dict[str, Any]], min_weight: float) -> List[Dict[str, Any]]:
+def filter_synthetic_rows(
+    rows: List[Dict[str, Any]],
+    min_weight: float,
+    synthetic_weight: float | None = None,
+) -> List[Dict[str, Any]]:
     output = []
     for row in rows:
         weight = float(row.get("sample_weight") or 0.0)
@@ -45,7 +49,10 @@ def filter_synthetic_rows(rows: List[Dict[str, Any]], min_weight: float) -> List
             continue
         if not row.get("ideal_skills"):
             continue
-        output.append(dict(row))
+        item = dict(row)
+        if synthetic_weight is not None:
+            item["sample_weight"] = synthetic_weight
+        output.append(item)
     return output
 
 
@@ -56,10 +63,20 @@ def main() -> None:
     parser.add_argument("--output", default="data_prod/training_data_mixed_1000.jsonl")
     parser.add_argument("--real-weight", type=float, default=1.0)
     parser.add_argument("--min-synthetic-weight", type=float, default=0.1)
+    parser.add_argument(
+        "--synthetic-weight",
+        type=float,
+        default=None,
+        help="Override sample_weight for all kept synthetic rows.",
+    )
     args = parser.parse_args()
 
     real_rows = normalize_real_rows(load_jsonl(Path(args.real)), args.real_weight)
-    synthetic_rows = filter_synthetic_rows(load_jsonl(Path(args.synthetic)), args.min_synthetic_weight)
+    synthetic_rows = filter_synthetic_rows(
+        load_jsonl(Path(args.synthetic)),
+        args.min_synthetic_weight,
+        args.synthetic_weight,
+    )
     merged = real_rows + synthetic_rows
     save_jsonl(merged, Path(args.output))
 
