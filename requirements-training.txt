@@ -1,6 +1,7 @@
 torch
 transformers
 accelerate
+modelscope
 tqdm
 scikit-learn
 matplotlib

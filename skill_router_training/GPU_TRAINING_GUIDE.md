@@ -27,6 +27,15 @@ source .venv/bin/activate
 python -m pip install -r requirements-training.txt
 ```
 
+If the server cannot access Hugging Face, download the embedding model from
+ModelScope first:
+
+```bash
+python skill_router_training/scripts/download_modelscope_embedding.py \
+  --model-id Qwen/Qwen3-Embedding-0.6B \
+  --output-dir models/Qwen3-Embedding-0.6B
+```
+
 ## Train
 
 If the GPU server can download Hugging Face models:
@@ -52,7 +61,7 @@ python skill_router_training/core/train.py \
   --batch-size 50 \
   --lr 0.0001 \
   --device cuda \
-  --embedding-model models \
+  --embedding-model models/Qwen3-Embedding-0.6B \
   --local-files-only
 ```
 
@@ -68,7 +77,8 @@ python skill_router_training/scripts/evaluate_ml.py \
   --output skill_router_training/data_prod/ml_prod_holdout_synth_1000.jsonl \
   --threshold 0.5 \
   --top-k 8 \
-  --embedding-model Qwen/Qwen3-Embedding-0.6B
+  --embedding-model models/Qwen3-Embedding-0.6B \
+  --local-files-only
 ```
 
 Compare against the current production result before publishing:
