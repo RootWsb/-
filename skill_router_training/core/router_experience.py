@@ -87,6 +87,7 @@ class RouterExperience:
     scores: Dict[str, float] = field(default_factory=dict)
     threshold: Optional[float] = None
     top_k: Optional[int] = None
+    user_message_redacted: str = ""
     outcome: RouterOutcome = field(default_factory=RouterOutcome)
     reward: Optional[float] = None
     learning_target_skills: List[str] = field(default_factory=list)
@@ -102,7 +103,8 @@ class RouterExperience:
             "request_id": self.request_id,
             "task_id": self.task_id,
             "query_sha256": self.query_sha256,
-            "query_text_allowed": False,
+            "query_text_allowed": bool(self.user_message_redacted),
+            "user_message_redacted": self.user_message_redacted,
             "available_skills": self.available_skills,
             "baseline_skills": self.baseline_skills,
             "router_selected_skills": self.router_selected_skills,
@@ -212,6 +214,7 @@ def experience_from_route_record(
         scores=_scores_from_route(route_record),
         threshold=_optional_float(route_record.get("threshold")),
         top_k=_optional_int(route_record.get("top_k")),
+        user_message_redacted=_redacted_text(route_record, outcome_record),
         outcome=outcome,
         reward=compute_reward(selected, baseline, outcome),
         learning_target_skills=target,
@@ -271,6 +274,23 @@ def _scores_from_route(record: Dict[str, Any]) -> Dict[str, float]:
             if name and score is not None:
                 scores[name] = score
     return scores
+
+
+def _redacted_text(route_record: Dict[str, Any], outcome_record: Optional[Dict[str, Any]]) -> str:
+    """Return a bounded, explicitly redacted training text if one is available."""
+    for source in (route_record, outcome_record or {}):
+        for key in (
+            "user_message_redacted",
+            "redacted_user_message",
+            "query_text_redacted",
+            "redacted_query_text",
+            "request_summary",
+            "notes_redacted",
+        ):
+            value = source.get(key)
+            if isinstance(value, str) and value.strip():
+                return value.strip()[:8000]
+    return ""
 
 
 def _optional_float(value: Any) -> Optional[float]:

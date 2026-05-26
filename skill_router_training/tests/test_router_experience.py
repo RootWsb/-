@@ -84,6 +84,30 @@ class RouterExperienceTest(unittest.TestCase):
         self.assertEqual(experience["learning_target_skills"], ["plugin-dev"])
         self.assertIsNotNone(experience["reward"])
 
+    def test_redacted_text_is_preserved_but_raw_user_message_is_not(self):
+        with_redacted = experience_from_route_record(
+            {
+                "request_id": "req-1",
+                "user_message_redacted": "请帮我排查插件事件上报失败",
+                "user_message": "raw secret text",
+                "selected_skills": ["systematic-debugging"],
+            },
+            {"request_id": "req-1", "status": "success"},
+        ).to_dict()
+        without_redacted = experience_from_route_record(
+            {
+                "request_id": "req-2",
+                "user_message": "raw secret text",
+                "selected_skills": ["systematic-debugging"],
+            },
+            {"request_id": "req-2", "status": "success"},
+        ).to_dict()
+
+        self.assertEqual(with_redacted["user_message_redacted"], "请帮我排查插件事件上报失败")
+        self.assertTrue(with_redacted["query_text_allowed"])
+        self.assertEqual(without_redacted["user_message_redacted"], "")
+        self.assertFalse(without_redacted["query_text_allowed"])
+
     def test_outcomes_can_match_by_request_id_or_hash(self):
         outcomes = index_outcomes([
             {"request_id": "req-1", "status": "success"},
