@@ -27,6 +27,22 @@ source .venv/bin/activate
 python -m pip install -r requirements-training.txt
 ```
 
+If CUDA fails with a message like `The NVIDIA driver on your system is too old`
+and the reported driver API version is `12040`, keep the server driver as-is and
+install the CUDA 12.4 PyTorch wheel:
+
+```bash
+python -m pip uninstall -y torch torchvision torchaudio
+python -m pip install -r requirements-torch-cu124.txt
+python -m pip install -r requirements-training.txt
+```
+
+Then verify CUDA before training:
+
+```bash
+python -c "import torch; print(torch.__version__); print(torch.version.cuda); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))"
+```
+
 If the server cannot access Hugging Face, download the embedding model from
 ModelScope first:
 
