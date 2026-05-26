@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SkillRouter Control Center</title>
+    <link rel="stylesheet" href="assets/app.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>SkillRouter Control Center</h1>
+        <p id="runtimeLine">连接中...</p>
+      </div>
+      <div class="status-strip">
+        <span id="healthBadge" class="badge pending">checking</span>
+        <button id="refreshBtn" type="button">刷新</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="panel controls">
+        <h2>运行策略</h2>
+        <label class="switch-row">
+          <span>路由启用</span>
+          <input id="routingEnabled" type="checkbox" />
+        </label>
+        <label class="switch-row">
+          <span>控制台参数优先</span>
+          <input id="enforceParameters" type="checkbox" />
+        </label>
+        <label class="field">
+          <span>阈值</span>
+          <input id="threshold" type="range" min="0" max="1" step="0.01" />
+          <strong id="thresholdValue">0.50</strong>
+        </label>
+        <label class="field">
+          <span>Top K</span>
+          <input id="topK" type="number" min="1" max="50" step="1" />
+        </label>
+        <button id="savePolicyBtn" type="button" class="primary">保存策略</button>
+
+        <h2>模型运行态</h2>
+        <dl class="kv">
+          <div><dt>checkpoint</dt><dd id="checkpointText">-</dd></div>
+          <div><dt>skills</dt><dd id="skillCountText">-</dd></div>
+          <div><dt>device</dt><dd id="deviceText">-</dd></div>
+        </dl>
+      </aside>
+
+      <section class="content">
+        <section class="metrics">
+          <article><span>事件数</span><strong id="eventCount">0</strong></article>
+          <article><span>可对比</span><strong id="comparableCount">0</strong></article>
+          <article><span>成功率</span><strong id="okRate">-</strong></article>
+          <article><span>Skill 降幅</span><strong id="reductionRate">-</strong></article>
+        </section>
+
+        <section class="chart-grid">
+          <article class="panel">
+            <h2>平均选择数量</h2>
+            <canvas id="avgChart" height="220"></canvas>
+          </article>
+          <article class="panel">
+            <h2>请求趋势</h2>
+            <canvas id="seriesChart" height="220"></canvas>
+          </article>
+          <article class="panel wide">
+            <h2>Skill 变化排行</h2>
+            <canvas id="changeChart" height="280"></canvas>
+          </article>
+          <article class="panel">
+            <h2>延迟</h2>
+            <canvas id="latencyChart" height="220"></canvas>
+          </article>
+        </section>
+
+        <section class="panel table-panel">
+          <div class="table-head">
+            <h2>最近事件</h2>
+            <span id="lastUpdated">-</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>状态</th>
+                  <th>Before</th>
+                  <th>After</th>
+                  <th>延迟</th>
+                  <th>备注</th>
+                </tr>
+              </thead>
+              <tbody id="eventRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="assets/app.js"></script>
+  </body>
+</html>

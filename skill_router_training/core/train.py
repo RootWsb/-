@@ -84,11 +84,13 @@ class SkillSelectionDataset(Dataset):
         input_ids = encoding["input_ids"].squeeze(0)
         attention_mask = encoding["attention_mask"].squeeze(0)
         labels = torch.tensor(item["skill_labels"], dtype=torch.float32)
+        sample_weight = torch.tensor(float(item.get("sample_weight", 1.0)), dtype=torch.float32)
 
         return {
             "input_ids": input_ids,
             "attention_mask": attention_mask,
             "labels": labels,
+            "sample_weight": sample_weight,
         }
 
 
@@ -283,7 +285,7 @@ def train_model(
         pct_start=warmup_steps / total_steps if warmup_steps < total_steps else 0.1,
     )
 
-    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
+    criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor, reduction="none")
 
     best_val_loss = float("inf")
     history = []
@@ -310,9 +312,12 @@ def train_model(
             input_ids = batch["input_ids"].to(device)
             attention_mask = batch["attention_mask"].to(device)
             labels = batch["labels"].to(device)
+            sample_weight = batch["sample_weight"].to(device)
 
             logits = model(input_ids, attention_mask)
-            loss = criterion(logits, labels)
+            per_label_loss = criterion(logits, labels)
+            per_sample_loss = per_label_loss.mean(dim=1)
+            loss = (per_sample_loss * sample_weight).sum() / sample_weight.sum().clamp_min(1e-6)
 
             optimizer.zero_grad()
             loss.backward()
@@ -347,9 +352,12 @@ def train_model(
                     input_ids = batch["input_ids"].to(device)
                     attention_mask = batch["attention_mask"].to(device)
                     labels = batch["labels"].to(device)
+                    sample_weight = batch["sample_weight"].to(device)
 
                     logits = model(input_ids, attention_mask)
-                    loss = criterion(logits, labels)
+                    per_label_loss = criterion(logits, labels)
+                    per_sample_loss = per_label_loss.mean(dim=1)
+                    loss = (per_sample_loss * sample_weight).sum() / sample_weight.sum().clamp_min(1e-6)
 
                     val_loss += loss.item()
                     predictions = (torch.sigmoid(logits) > 0.5).float()

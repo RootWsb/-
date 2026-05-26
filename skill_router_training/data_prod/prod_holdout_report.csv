@@ -1,0 +1,2 @@
+﻿name,rows,selection_score,token_waste_ratio,exact_match,avg_selected,avg_ideal,micro_precision,micro_recall,micro_f1,avg_extra_skills,avg_missing_skills
+Prod_ML,10,0.8089999999999999,0.06670000000000001,0.4,5.7,7.8,0.9298245614035088,0.6794871794871795,0.7851851851851852,0.4,2.5

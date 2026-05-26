@@ -6,3 +6,5 @@ scikit-learn
 matplotlib
 numpy
 requests
+fastapi
+uvicorn
