@@ -59,7 +59,12 @@ def filter_synthetic_rows(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build mixed real+synthetic SkillRouter training data.")
     parser.add_argument("--real", default="data_prod/training_data.jsonl")
-    parser.add_argument("--synthetic", default="data_prod/synthetic_training_data_1000.jsonl")
+    parser.add_argument(
+        "--synthetic",
+        action="append",
+        default=None,
+        help="Synthetic training JSONL. Can be repeated.",
+    )
     parser.add_argument("--output", default="data_prod/training_data_mixed_1000.jsonl")
     parser.add_argument("--real-weight", type=float, default=1.0)
     parser.add_argument("--min-synthetic-weight", type=float, default=0.1)
@@ -72,11 +77,16 @@ def main() -> None:
     args = parser.parse_args()
 
     real_rows = normalize_real_rows(load_jsonl(Path(args.real)), args.real_weight)
-    synthetic_rows = filter_synthetic_rows(
-        load_jsonl(Path(args.synthetic)),
-        args.min_synthetic_weight,
-        args.synthetic_weight,
-    )
+    synthetic_paths = args.synthetic or ["data_prod/synthetic_training_data_1000.jsonl"]
+    synthetic_rows = []
+    for synthetic_path in synthetic_paths:
+        synthetic_rows.extend(
+            filter_synthetic_rows(
+                load_jsonl(Path(synthetic_path)),
+                args.min_synthetic_weight,
+                args.synthetic_weight,
+            )
+        )
     merged = real_rows + synthetic_rows
     save_jsonl(merged, Path(args.output))
 

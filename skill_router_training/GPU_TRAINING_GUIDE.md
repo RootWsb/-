@@ -107,3 +107,29 @@ python skill_router_training/scripts/compare_router_outputs.py \
   --output-md skill_router_training/data_prod/prod_synth_1000_report.md \
   --output-csv skill_router_training/data_prod/prod_synth_1000_report.csv
 ```
+
+## Hard-Case Iteration
+
+If the synthetic checkpoint has high recall but too many extra skills, generate
+targeted hard-case data from the candidate's evaluation failures:
+
+```bash
+python skill_router_training/scripts/export_hard_case_prompt_pack.py \
+  --corpus skill_router_training/data_prod/prod_skill_corpus.json \
+  --candidate skill_router_training/data_prod/ml_prod_holdout_synth_1000_w025.jsonl \
+  --output-prompts skill_router_training/data_prod/hard_case_router_prompts.jsonl \
+  --max-cases 20 \
+  --records-per-case 20
+```
+
+Then use the normal LLM batch generator, convert the new experience rows to
+training rows, and mix both synthetic files:
+
+```bash
+python skill_router_training/scripts/build_mixed_training_data.py \
+  --real skill_router_training/data_prod/training_data.jsonl \
+  --synthetic skill_router_training/data_prod/synthetic_training_data_1000.jsonl \
+  --synthetic skill_router_training/data_prod/hard_case_training_data.jsonl \
+  --output skill_router_training/data_prod/training_data_mixed_1000_hard.jsonl \
+  --synthetic-weight 0.25
+```
